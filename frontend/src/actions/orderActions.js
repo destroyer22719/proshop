@@ -29,14 +29,17 @@ export const createOrder = (orderData) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const res = await fetch(`http://localhost:8080/api/orders/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userInfo.token} `,
-            },
-            body: JSON.stringify(orderData),
-        });
+        const res = await fetch(
+            `https://nathan-mern-site.herokuapp.com/api/orders/`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token} `,
+                },
+                body: JSON.stringify(orderData),
+            }
+        );
 
         const order = await res.json();
 
@@ -67,12 +70,15 @@ export const getOrderDetails = (orderId) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const res = await fetch(`http://localhost:8080/api/orders/${orderId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userInfo.token} `,
-            },
-        });
+        const res = await fetch(
+            `https://nathan-mern-site.herokuapp.com/api/orders/${orderId}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token} `,
+                },
+            }
+        );
 
         const order = await res.json();
 
@@ -107,7 +113,7 @@ export const payOrder = (orderId, paymentResult) => async (
         } = getState();
 
         const res = await fetch(
-            `http://localhost:8080/api/orders/${orderId}/pay`,
+            `https://nathan-mern-site.herokuapp.com/api/orders/${orderId}/pay`,
             {
                 method: "PUT",
                 headers: {
@@ -147,11 +153,14 @@ export const listOrders = () => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const res = await fetch(`http://localhost:8080/api/orders/myorders`, {
-            headers: {
-                Authorization: `Bearer ${userInfo.token} `,
-            },
-        });
+        const res = await fetch(
+            `https://nathan-mern-site.herokuapp.com/api/orders/myorders`,
+            {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token} `,
+                },
+            }
+        );
 
         const orders = await res.json();
         if (res.status !== 200) throw new Error(orders.message);
@@ -181,11 +190,14 @@ export const listAllOrders = () => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const res = await fetch(`http://localhost:8080/api/orders/`, {
-            headers: {
-                Authorization: `Bearer ${userInfo.token} `,
-            },
-        });
+        const res = await fetch(
+            `https://nathan-mern-site.herokuapp.com/api/orders/`,
+            {
+                headers: {
+                    Authorization: `Bearer ${userInfo.token} `,
+                },
+            }
+        );
 
         const orders = await res.json();
         if (res.status !== 200) throw new Error(orders.message);
@@ -216,7 +228,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
         } = getState();
 
         const res = await fetch(
-            `http://localhost:8080/api/orders/${order._id}/delivered`,
+            `https://nathan-mern-site.herokuapp.com/api/orders/${order._id}/delivered`,
             {
                 method: "PUT",
                 headers: {

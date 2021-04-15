@@ -1,7 +1,14 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS } from "../constants/cartConstants";
+import {
+    CART_ADD_ITEM,
+    CART_REMOVE_ITEM,
+    CART_SAVE_PAYMENT_METHOD,
+    CART_SAVE_SHIPPING_ADDRESS,
+} from "../constants/cartConstants";
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
-    const res = await fetch(`http://localhost:8080/api/products/${id}`);
+    const res = await fetch(
+        `https://nathan-mern-site.herokuapp.com/api/products/${id}`
+    );
     const data = await res.json();
 
     dispatch({
@@ -12,21 +19,27 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
             image: data.image,
             price: data.price,
             countInStock: data.countInStock,
-            qty
-        }
+            qty,
+        },
     });
 
-    localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+    localStorage.setItem(
+        "cartItems",
+        JSON.stringify(getState().cart.cartItems)
+    );
 };
 
 export const removeFromCart = (id) => async (dispatch, getState) => {
     dispatch({
         type: CART_REMOVE_ITEM,
-        payload: id
+        payload: id,
     });
 
-    localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems))
-}
+    localStorage.setItem(
+        "cartItems",
+        JSON.stringify(getState().cart.cartItems)
+    );
+};
 
 export const saveShippingAddress = (data) => (dispatch) => {
     dispatch({
@@ -35,14 +48,13 @@ export const saveShippingAddress = (data) => (dispatch) => {
     });
 
     localStorage.setItem("shippingAddress", JSON.stringify(data));
-}
+};
 
 export const savePaymentMethod = (paymentMethod) => (dispatch) => {
-    console.log(paymentMethod);
     dispatch({
         type: CART_SAVE_PAYMENT_METHOD,
         payload: paymentMethod,
     });
 
     localStorage.setItem("paymentMethod", JSON.stringify(paymentMethod));
-}
+};

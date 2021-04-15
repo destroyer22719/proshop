@@ -2,11 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { deliverOrder, getOrderDetails, payOrder } from "../actions/orderActions";
+import {
+    deliverOrder,
+    getOrderDetails,
+    payOrder,
+} from "../actions/orderActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { PayPalButton } from "react-paypal-button-v2";
-import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from "../constants/orderConstants";
+import {
+    ORDER_DELIVER_RESET,
+    ORDER_PAY_RESET,
+} from "../constants/orderConstants";
 
 const OrderScreen = ({ match }) => {
     const dispatch = useDispatch();
@@ -21,7 +28,6 @@ const OrderScreen = ({ match }) => {
 
     const orderPay = useSelector((state) => state.orderPay);
     const { loading: loadingPay, success: successPay } = orderPay;
-
 
     const orderDeliver = useSelector((state) => state.orderDeliver);
     const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
@@ -38,10 +44,11 @@ const OrderScreen = ({ match }) => {
         );
     }
 
-
     useEffect(() => {
         const addPayPalScript = async () => {
-            const res = await fetch("http://localhost:8080/api/config/paypal");
+            const res = await fetch(
+                "https://nathan-mern-site.herokuapp.com/api/config/paypal"
+            );
             const clientId = await res.text();
             const script = document.createElement("script");
             script.type = "text/javascript";
@@ -63,8 +70,6 @@ const OrderScreen = ({ match }) => {
             if (!window.paypal) addPayPalScript();
             else setSdkReady(true);
         }
-
-
     }, [orderId, dispatch, successPay, order, successDeliver]);
 
     const successPaymentHandler = (paymentResult) => {
@@ -74,7 +79,7 @@ const OrderScreen = ({ match }) => {
 
     const deliverHandler = () => {
         dispatch(deliverOrder(order));
-    }
+    };
 
     return loading ? (
         <Loader />
@@ -206,11 +211,19 @@ const OrderScreen = ({ match }) => {
                                 </ListGroup.Item>
                             )}
                             {loadingDeliver && <Loader />}
-                            {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-                                <ListGroup.Item>
-                                    <Button type="button" className="btn btn-block" onClick={deliverHandler}>Mark As Delivered</Button>
-                                </ListGroup.Item>   
-                            )}
+                            {userInfo.isAdmin &&
+                                order.isPaid &&
+                                !order.isDelivered && (
+                                    <ListGroup.Item>
+                                        <Button
+                                            type="button"
+                                            className="btn btn-block"
+                                            onClick={deliverHandler}
+                                        >
+                                            Mark As Delivered
+                                        </Button>
+                                    </ListGroup.Item>
+                                )}
                         </ListGroup>
                     </Card>
                 </Col>

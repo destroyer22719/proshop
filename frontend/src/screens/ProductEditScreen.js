@@ -52,28 +52,32 @@ const ProductEditScreen = ({ match, history }) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(updateProduct({
-            _id: productId,
-            name,
-            brand,
-            category,
-            description,
-            countInStock,
-        }))
+        dispatch(
+            updateProduct({
+                _id: productId,
+                name,
+                brand,
+                category,
+                description,
+                countInStock,
+            })
+        );
     };
 
     const uploadFileHandler = async (e) => {
-        const file = e.target.files[0]
+        const file = e.target.files[0];
         const formData = new FormData();
         formData.append("image", file);
         setUploading(true);
 
         try {
-
-            const res = await fetch("http://localhost:8080/api/upload", {
-                method: "POST",
-                body: formData
-            });
+            const res = await fetch(
+                "https://nathan-mern-site.herokuapp.com/api/upload",
+                {
+                    method: "POST",
+                    body: formData,
+                }
+            );
 
             const data = await res.text();
             setImage(data);
@@ -82,7 +86,7 @@ const ProductEditScreen = ({ match, history }) => {
             console.log(error);
             setUploading(false);
         }
-    }
+    };
 
     return (
         <>

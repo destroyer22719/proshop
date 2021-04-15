@@ -32,13 +32,16 @@ export const login = (email, password) => async (dispatch) => {
             type: USER_LOGIN_REQUEST,
         });
 
-        const res = await fetch("http://localhost:8080/api/users/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-        });
+        const res = await fetch(
+            "https://nathan-mern-site.herokuapp.com/api/users/login",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            }
+        );
 
         const user = await res.json();
 
@@ -75,13 +78,16 @@ export const register = (name, email, password) => async (dispatch) => {
             type: USER_REGISTER_REQUEST,
         });
 
-        const res = await fetch("http://localhost:8080/api/users", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name, email, password }),
-        });
+        const res = await fetch(
+            "https://nathan-mern-site.herokuapp.com/api/users",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name, email, password }),
+            }
+        );
 
         const user = await res.json();
 
@@ -114,12 +120,15 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const res = await fetch(`http://localhost:8080/api/users/${id}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userInfo.token} `,
-            },
-        });
+        const res = await fetch(
+            `https://nathan-mern-site.herokuapp.com/api/users/${id}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token} `,
+                },
+            }
+        );
 
         const user = await res.json();
 
@@ -150,14 +159,17 @@ export const updateUserProfile = (userData) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const res = await fetch(`http://localhost:8080/api/users/`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userInfo.token} `,
-            },
-            body: JSON.stringify(userData),
-        });
+        const res = await fetch(
+            `https://nathan-mern-site.herokuapp.com/api/users/`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token} `,
+                },
+                body: JSON.stringify(userData),
+            }
+        );
 
         const user = await res.json();
 
@@ -188,12 +200,15 @@ export const listUsers = () => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const res = await fetch(`http://localhost:8080/api/users/`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userInfo.token} `,
-            },
-        });
+        const res = await fetch(
+            `https://nathan-mern-site.herokuapp.com/api/users/`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token} `,
+                },
+            }
+        );
 
         const users = await res.json();
 
@@ -224,13 +239,16 @@ export const deleteUser = (userId) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const res = await fetch(`http://localhost:8080/api/users/${userId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userInfo.token} `,
-            },
-        });
+        const res = await fetch(
+            `https://nathan-mern-site.herokuapp.com/api/users/${userId}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token} `,
+                },
+            }
+        );
 
         const users = await res.json();
 
@@ -260,14 +278,17 @@ export const updateUserAdmin = (user) => async (dispatch, getState) => {
             userLogin: { userInfo },
         } = getState();
 
-        const res = await fetch(`http://localhost:8080/api/users/${user._id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userInfo.token} `,
-            },
-            body: JSON.stringify(user)
-        });
+        const res = await fetch(
+            `https://nathan-mern-site.herokuapp.com/api/users/${user._id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token} `,
+                },
+                body: JSON.stringify(user),
+            }
+        );
 
         const userRes = await res.json();
 
@@ -281,7 +302,6 @@ export const updateUserAdmin = (user) => async (dispatch, getState) => {
             type: USER_DETAILS_SUCCESS,
             payload: userRes,
         });
-
     } catch (error) {
         dispatch({
             type: USER_UPDATE_ADMIN_FAIL,
@@ -292,5 +312,3 @@ export const updateUserAdmin = (user) => async (dispatch, getState) => {
         });
     }
 };
-
-
